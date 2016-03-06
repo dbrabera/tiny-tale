@@ -1,0 +1,23 @@
+{
+  "name": "tiny-tale",
+  "version": "1.0.0",
+  "description": "Tiny Tale is a classic dungeon crawler Roguelike built for the [7DRL Challenge](http://7drl.org/). Enter the Dungeons and recover the Amulet of Yendor!",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dbrabera/tiny-tale.git"
+  },
+  "scripts": {
+      "start": "http-server .",
+      "lint": "eslint ."
+  },
+  "author": "Diego Barbera",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dbrabera/tiny-tale/issues"
+  },
+  "homepage": "https://github.com/dbrabera/tiny-tale",
+  "devDependencies": {
+    "http-server": "^0.9.0"
+  }
+}

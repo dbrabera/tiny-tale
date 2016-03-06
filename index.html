@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Tiny Tale</title>
+        <script src="https://ondras.github.io/rot.js/rot.js"></script>
+        <script src="/src/Game.js"></script>
+        <script src="/src/Input.js"></script>
+        <script src="/src/Map.js"></script>
+        <script src="/src/Player.js"></script>
+        <script src="/src/Pointer.js"></script>
+    </head>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            align-items: center;
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+    <body></body>
+    <script>
+        window.onload = function() {
+            var game = new Game(document.body);
+            game.run();
+        };
+    </script>
+</html>
