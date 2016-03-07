@@ -23,7 +23,3 @@ Player.prototype.update = function() {
     if (this.action == null) return;
     this.action();
 };
-
-Player.prototype.draw = function(display) {
-    display.draw(this.x, this.y, '@');
-};

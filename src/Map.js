@@ -3,14 +3,6 @@ function Map(width, height) {
     this.height = height;
 }
 
-Map.prototype.draw = function(display) {
-    for (var x = 0; x < this.width; x++) {
-        for (var y = 0; y < this.height; y++) {
-            display.draw(x, y, '.');
-        }
-    }
-};
-
 Map.prototype.isWalkable = function(x, y) {
     return x >= 0 && x < this.width && y >= 0 && y < this.height;
 };

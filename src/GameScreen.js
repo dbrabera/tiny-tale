@@ -1,23 +1,21 @@
 function GameScreen(screens) {
     this.screens = screens;
 
-    this.game = new Game();
-    this.pointer = new Pointer(this.game);
+    this.game = new Game(60, 50);
+    this.viewport = new Viewport(this.game, 0, 0, 60, 50);
 }
 
 GameScreen.prototype.update = function(mouse) {
-    if (mouse.clicked) {
+    // update player position
+    if (mouse.clicked && this.viewport.containsPosition(mouse.x, mouse.y)) {
         this.game.player.go(mouse.x, mouse.y);
     }
 
-    this.pointer.move(mouse.x, mouse.y);
-
     this.game.update();
-    this.pointer.update();
+
+    this.viewport.update(mouse);
 };
 
 GameScreen.prototype.draw = function(display) {
-    this.game.map.draw(display);
-    this.game.player.draw(display);
-    this.pointer.draw(display);
+    this.viewport.draw(display);
 };

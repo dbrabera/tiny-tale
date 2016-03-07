@@ -27,10 +27,10 @@
         "MainMenuScreen": true,
         "Map": true,
         "Player": true,
-        "Pointer": true,
         "ROT": true,
         "ScreenManager": true,
-        "TinyTale": true
+        "TinyTale": true,
+        "Viewport": true
     },
     "extends": "eslint:recommended"
 }

@@ -1,5 +1,5 @@
-function Game() {
-    this.map = new Map(80, 60);
+function Game(width, height) {
+    this.map = new Map(width, height);
     this.player = new Player(this, 0, 0);
 }
 
