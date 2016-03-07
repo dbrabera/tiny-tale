@@ -1,8 +1,7 @@
-function Pointer(game, x, y) {
+function Pointer(game) {
     this.game = game;
-    this.x = x;
-    this.y = y;
-    this.trace = this.game.map.findPath(this.game.player, this);
+    this.x = -1;
+    this.y = -1;
 }
 
 Pointer.prototype.update = function() {

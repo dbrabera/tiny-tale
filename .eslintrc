@@ -21,12 +21,16 @@
         "browser": true
     },
     "globals": {
-        "ROT": true,
         "Game": true,
-        "Input": true,
+        "GameScreen": true,
+        "InputManager": true,
+        "MainMenuScreen": true,
         "Map": true,
         "Player": true,
         "Pointer": true,
+        "ROT": true,
+        "ScreenManager": true,
+        "TinyTale": true
     },
     "extends": "eslint:recommended"
 }
