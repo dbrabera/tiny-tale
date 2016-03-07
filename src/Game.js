@@ -3,6 +3,6 @@ function Game(width, height) {
     this.player = new Player(this, 0, 0);
 }
 
-Game.prototype.update = function() {
-    this.player.update();
+Game.prototype.turn = function() {
+    this.player.turn();
 };

@@ -1,4 +1,7 @@
 function Player(game, x, y) {
+    this.char = '@';
+    this.description = 'yourself';
+
     this.game = game;
     this.x = x;
     this.y = y;
@@ -19,7 +22,7 @@ Player.prototype.go = function(x, y) {
     };
 };
 
-Player.prototype.update = function() {
+Player.prototype.turn = function() {
     if (this.action == null) return;
     this.action();
 };

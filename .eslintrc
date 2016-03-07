@@ -1,5 +1,9 @@
 {
     "rules": {
+        "no-unused-vars": [
+            2,
+            {"vars": "local", "args": "after-used"}
+        ],
         "indent": [
             2,
             4
@@ -21,6 +25,7 @@
         "browser": true
     },
     "globals": {
+        "Descriptor": true,
         "Game": true,
         "GameScreen": true,
         "InputManager": true,
@@ -29,6 +34,7 @@
         "Player": true,
         "ROT": true,
         "ScreenManager": true,
+        "TILES": true,
         "TinyTale": true,
         "Viewport": true
     },

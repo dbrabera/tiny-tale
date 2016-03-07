@@ -3,19 +3,20 @@ function GameScreen(screens) {
 
     this.game = new Game(60, 50);
     this.viewport = new Viewport(this.game, 0, 0, 60, 50);
+    this.descriptor = new Descriptor(this.game, 0, 50, 1, 50);
 }
 
-GameScreen.prototype.update = function(mouse) {
-    // update player position
-    if (mouse.clicked && this.viewport.containsPosition(mouse.x, mouse.y)) {
-        this.game.player.go(mouse.x, mouse.y);
+GameScreen.prototype.step = function(display, mouse) {
+    if (this.viewport.containsPosition(mouse.x, mouse.y)) {
+        mouse.game = {x: mouse.x, y: mouse.y};
     }
 
-    this.game.update();
+    if (mouse.clicked && mouse.game) {
+        this.game.player.go(mouse.game.x, mouse.game.y);
+    }
 
-    this.viewport.update(mouse);
-};
+    this.game.turn();
 
-GameScreen.prototype.draw = function(display) {
-    this.viewport.draw(display);
+    this.viewport.step(display, mouse);
+    this.descriptor.step(display, mouse);
 };

@@ -18,10 +18,7 @@ TinyTale.prototype.run = function() {
 };
 
 TinyTale.prototype.step = function() {
-    this.screens.update(this.input.mouse());
-
     this.display.clear();
-    this.screens.draw(this.display);
-
+    this.screens.step(this.display, this.input.mouse());
     window.requestAnimationFrame(this.step.bind(this));
 };

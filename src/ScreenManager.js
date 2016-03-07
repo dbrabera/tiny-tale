@@ -10,10 +10,6 @@ ScreenManager.prototype.pop = function() {
     this.screens.pop;
 };
 
-ScreenManager.prototype.update = function(mouse) {
-    this.screens[this.screens.length-1].update(mouse);
-};
-
-ScreenManager.prototype.draw = function(display) {
-    this.screens[this.screens.length-1].draw(display);
+ScreenManager.prototype.step = function(display, mouse) {
+    this.screens[this.screens.length-1].step(display, mouse);
 };

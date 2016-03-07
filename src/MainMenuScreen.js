@@ -2,16 +2,11 @@ function MainMenuScreen(screens) {
     this.screens = screens;
 }
 
-MainMenuScreen.prototype.update = function(mouse) {
-    this.mouse = mouse;
-    if (!mouse.clicked) return;
-
-    if ((this.mouse.x >= 32 || this.mouse.y < 58) && this.mouse.y == 33) {
+MainMenuScreen.prototype.step = function(display, mouse) {
+    if (mouse.clicked && (mouse.x >= 32 || mouse.y < 58) && mouse.y == 33) {
         this.screens.push(new GameScreen(this.screens));
     }
-};
 
-MainMenuScreen.prototype.draw = function(display) {
     display.drawText(9, 18, 'd888888P dP                      d888888P          dP         ');
     display.drawText(12, 19, '   88    88                         88             88         ');
     display.drawText(12, 20, '   88    88 88d888b. dP    dP       88    .d8888b. 88 .d8888b.');
@@ -21,7 +16,7 @@ MainMenuScreen.prototype.draw = function(display) {
     display.drawText(35, 24, '                          .88                                 ');
     display.drawText(31, 25, '                      d8888P                                  ');
 
-    if ((this.mouse.x >= 32 || this.mouse.y < 58) && this.mouse.y == 33) {
+    if ((mouse.x >= 32 || mouse.y < 58) && mouse.y == 33) {
         display.drawText(32, 33, '%c{black}%b{white}Start a new game%b{}%c{}');
     } else {
         display.drawText(32, 33, 'Start a new game');
