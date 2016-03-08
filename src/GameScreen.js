@@ -1,13 +1,10 @@
 function GameScreen(screens) {
     this.screens = screens;
-
     this.game = new Game(60, 50);
-    this.viewport = new Viewport(this.game, 0, 0, 60, 50);
-    this.descriptor = new Descriptor(this.game, 0, 50, 1, 50);
 }
 
 GameScreen.prototype.step = function(display, mouse) {
-    if (this.viewport.containsPosition(mouse.x, mouse.y)) {
+    if (mouse.x >= 0 && mouse.x < 60 && mouse.y >= 0 && mouse.y < 50) {
         mouse.game = {x: mouse.x, y: mouse.y};
     }
 
@@ -17,6 +14,63 @@ GameScreen.prototype.step = function(display, mouse) {
 
     this.game.turn();
 
-    this.viewport.step(display, mouse);
-    this.descriptor.step(display, mouse);
+    viewport(display, mouse, 0, 0, this.game);
+    description(display, mouse, 0, 50, this.game);
+    hud(display, 60, 0, this.game);
 };
+
+function viewport(display, mouse, x, y, game) {
+    // draw map
+    for (var i = 0; i < game.map.width; i++) {
+        for (var j = 0; j < game.map.height; j++) {
+            display.draw(i + x, j + y, '.');
+        }
+    }
+
+    // draw player
+    display.draw(game.player.x, game.player.y, '@');
+
+    if (!mouse.game) return;
+
+    // draw pointer
+    var tile = display._data[mouse.game.x + ',' + mouse.game.y];
+    display.draw(tile[0], tile[1], tile[2], '#000000', '#ffffff');
+
+    // draw mouse trace
+    var path = game.map.findPath(game.player, mouse.game);
+    for (i = 1; i < path.length-1; i++) {
+        tile = display._data[path[i].x + ',' + path[i].y];
+        display.draw(tile[0], tile[1], tile[2], '#ffffff', '#45283c');
+    }
+}
+
+function description(display, mouse, x, y, game) {
+    if (!mouse.game) return;
+
+    var description = '...';
+    if (mouse.game.x == game.player.x && mouse.game.y == game.player.y) {
+        description = game.player.description;
+    } else {
+        description = game.map.tile(mouse.game.x, mouse.game.y).description;
+    }
+
+    display.drawText(x, y, 'You see ' + description + '.');
+}
+
+function hud(display, x, y, game) {
+    display.drawText(x, y, game.player.char + ': You');
+    bar(display, x, y+1, 'Health', game.player.health, game.player.strength , '#ffffff', '#ac3232');
+    bar(display, x, y+2, 'Energy', game.player.energy, game.player.stamina, '#ffffff', '#5fcde4');
+}
+
+function bar(display, x, y, label, value, capacity, fg, bg) {
+    var filledUntil = Math.floor(20 * value/capacity);
+    for (var i = 0; i < filledUntil; i++) {
+        display.draw(x + i, y, ' ', fg, bg);
+    }
+
+    var labelStart = x + 10 - Math.floor(label.length/2);
+    for (i = 0; i < label.length; i++) {
+        display.draw(labelStart + i, y, label[i], fg, bg);
+    }
+}

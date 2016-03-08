@@ -1,6 +1,10 @@
 function Player(game, x, y) {
     this.char = '@';
     this.description = 'yourself';
+    this.strength = 15;
+    this.stamina = 10;
+    this.health = 10;
+    this.energy = 10;
 
     this.game = game;
     this.x = x;

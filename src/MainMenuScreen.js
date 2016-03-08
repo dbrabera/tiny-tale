@@ -3,10 +3,6 @@ function MainMenuScreen(screens) {
 }
 
 MainMenuScreen.prototype.step = function(display, mouse) {
-    if (mouse.clicked && (mouse.x >= 32 || mouse.y < 58) && mouse.y == 33) {
-        this.screens.push(new GameScreen(this.screens));
-    }
-
     display.drawText(9, 18, 'd888888P dP                      d888888P          dP         ');
     display.drawText(12, 19, '   88    88                         88             88         ');
     display.drawText(12, 20, '   88    88 88d888b. dP    dP       88    .d8888b. 88 .d8888b.');
@@ -16,9 +12,19 @@ MainMenuScreen.prototype.step = function(display, mouse) {
     display.drawText(35, 24, '                          .88                                 ');
     display.drawText(31, 25, '                      d8888P                                  ');
 
-    if ((mouse.x >= 32 || mouse.y < 58) && mouse.y == 33) {
-        display.drawText(32, 33, '%c{black}%b{white}Start a new game%b{}%c{}');
-    } else {
-        display.drawText(32, 33, 'Start a new game');
+    if (button(display, mouse, 32, 33, 'Start a new game')) {
+        this.screens.push(new GameScreen(this.screens));
     }
 };
+
+function button(display, mouse, x, y, label) {
+    var selected = mouse.x >= x && mouse.x < x + label.length && mouse.y == y;
+
+    if (selected) {
+        display.drawText(32, 33, '%c{black}%b{white}' + label + '%b{}%c{}');
+    } else {
+        display.drawText(32, 33, label);
+    }
+
+    return selected && mouse.clicked;
+}

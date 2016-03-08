@@ -25,7 +25,6 @@
         "browser": true
     },
     "globals": {
-        "Descriptor": true,
         "Game": true,
         "GameScreen": true,
         "InputManager": true,
@@ -36,7 +35,8 @@
         "ScreenManager": true,
         "TILES": true,
         "TinyTale": true,
-        "Viewport": true
+        "Viewport": true,
+        "HUD": true
     },
     "extends": "eslint:recommended"
 }
