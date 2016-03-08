@@ -2,13 +2,40 @@ function Map(width, height) {
     this.width = width;
     this.height = height;
 
-    this.tiles = [];
+    // generate rooms
+    var tiles = [];
     for (var x = 0; x < width; x++) {
-        this.tiles.push([]);
+        tiles.push([]);
         for (var y = 0; y < height; y++) {
-            this.tiles[x][y] = 0;
+            tiles[x][y] = 0; // floor
         }
     }
+
+    var generator = new ROT.Map.Digger(width, height);
+    generator.create(function(x, y, what){
+        tiles[x][y] = what;
+    });
+
+    // place doors
+    var rooms = generator.getRooms();
+    for (var i = 0; i < rooms.length; i++) {
+        rooms[i].getDoors(function(x, y) {
+            tiles[x][y] = 2; // door
+        });
+    }
+
+    this.tiles = tiles;
+
+    // select entry position
+    var room = rooms[Math.floor(Math.random() * rooms.length)];
+    var center = room.getCenter();
+    this.entry = {
+        x: center[0],
+        y: center[1]
+    };
+
+    // place dungeon exit
+    this.tiles[this.entry.x][this.entry.y] = 3; // dungeon exit
 }
 
 Map.prototype.tile = function(x, y) {
@@ -16,7 +43,7 @@ Map.prototype.tile = function(x, y) {
 };
 
 Map.prototype.isWalkable = function(x, y) {
-    return x >= 0 && x < this.width && y >= 0 && y < this.height;
+    return x >= 0 && x < this.width && y >= 0 && y < this.height && this.tile(x, y).walkable;
 };
 
 Map.prototype.findPath = function(from, to) {

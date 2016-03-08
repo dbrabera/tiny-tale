@@ -23,7 +23,8 @@ function viewport(display, mouse, x, y, game) {
     // draw map
     for (var i = 0; i < game.map.width; i++) {
         for (var j = 0; j < game.map.height; j++) {
-            display.draw(i + x, j + y, '.');
+            var tile = game.map.tile(i, j);
+            display.draw(i + x, j + y, tile.char, tile.fg, tile.bg);
         }
     }
 
@@ -33,14 +34,14 @@ function viewport(display, mouse, x, y, game) {
     if (!mouse.game) return;
 
     // draw pointer
-    var tile = display._data[mouse.game.x + ',' + mouse.game.y];
-    display.draw(tile[0], tile[1], tile[2], '#000000', '#ffffff');
+    var cell = display._data[mouse.game.x + ',' + mouse.game.y];
+    display.draw(cell[0], cell[1], cell[2], '#000000', '#ffffff');
 
     // draw mouse trace
     var path = game.map.findPath(game.player, mouse.game);
     for (i = 1; i < path.length-1; i++) {
-        tile = display._data[path[i].x + ',' + path[i].y];
-        display.draw(tile[0], tile[1], tile[2], '#ffffff', '#45283c');
+        cell = display._data[path[i].x + ',' + path[i].y];
+        display.draw(cell[0], cell[1], cell[2], '#ffffff', '#3f3f74');
     }
 }
 

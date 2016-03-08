@@ -3,7 +3,7 @@ function Player(game, x, y) {
     this.description = 'yourself';
     this.strength = 15;
     this.stamina = 10;
-    this.health = 10;
+    this.health = 15;
     this.energy = 10;
 
     this.game = game;
