@@ -1,11 +1,6 @@
 function TinyTale(node) {
-    this.display = new ROT.Display({
-        width: 80,
-        height: 60,
-        fontSize: 16,
-        forceSquareRatio: true
-    });
-    node.appendChild(this.display.getContainer());
+    this.display = new Display(80, 60, 16);
+    node.appendChild(this.display.node());
 
     this.input = new InputManager(this.display);
 
