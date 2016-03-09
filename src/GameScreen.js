@@ -1,6 +1,9 @@
 function GameScreen(screens) {
     this.screens = screens;
     this.game = new Game(60, 50);
+
+    this.game.log.info('Find the Amulet of Yendor and escape with it alive.', true);
+    this.game.log.info('Welcome, adventurer!', true);
 }
 
 GameScreen.prototype.step = function(display, mouse) {
@@ -15,7 +18,9 @@ GameScreen.prototype.step = function(display, mouse) {
     this.game.turn();
 
     viewport(display, mouse, 0, 0, this.game);
-    description(display, mouse, 0, 50, this.game);
+    description(display, mouse, 0, 51, this.game);
+    log(display, 0, 53, this.game.log);
+
     hud(display, 60, 0, this.game);
 
     // check if the game is over
@@ -103,5 +108,17 @@ function bar(display, x, y, label, value, capacity, fg, bg) {
 
     for (i = 0; i < label.length; i++) {
         display.draw(x + i + 1, y, label[i], fg, bg);
+    }
+}
+
+function log(display, x, y, log) {
+    for (var i = 0; i < log.capacity; i++) {
+        var entry = log.entry(i);
+        if (!entry) return;
+
+        var message = entry.message + (entry.count > 1 ? ' x' + entry.count : '');
+        for (var j = 0; j < message.length; j++) {
+            display.draw(x+j, y+i, message[j], log.old(entry) ? '#5d6468' : '#ffffff');
+        }
     }
 }

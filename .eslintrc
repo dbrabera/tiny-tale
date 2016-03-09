@@ -38,7 +38,7 @@
         "Inventory": true,
         "TinyTale": true,
         "Viewport": true,
-        "HUD": true
+        "Log": true
     },
     "extends": "eslint:recommended"
 }
