@@ -39,6 +39,9 @@ Player.prototype.go = function(x, y) {
         this.x = next.x;
         this.y = next.y;
 
+        // recalculate FOV
+        this.game.map.fov(this.x, this.y);
+
         // pick an item if there is one
         if (!this.inventory.full()) {
             var item = this.game.map.item(this.x, next.y, true);

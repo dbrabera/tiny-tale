@@ -1,6 +1,8 @@
 function Game(width, height) {
     this.map = new Map(width, height);
     this.player = new Player(this, this.map.entry.x - 1, this.map.entry.y);
+    this.map.fov(this.player.x, this.player.y);
+
     this.log = new Log();
 }
 

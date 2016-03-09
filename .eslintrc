@@ -1,25 +1,11 @@
 {
     "rules": {
-        "no-unused-vars": [
-            2,
-            {"vars": "local", "args": "after-used"}
-        ],
-        "indent": [
-            2,
-            4
-        ],
-        "quotes": [
-            2,
-            "single"
-        ],
-        "linebreak-style": [
-            2,
-            "unix"
-        ],
-        "semi": [
-            2,
-            "always"
-        ]
+        "no-unused-vars": [2, {"vars": "local", "args": "after-used"}],
+        "indent": [2, 4],
+        "quotes": [2, "single"],
+        "linebreak-style": [2, "unix"],
+        "semi": [2, "always"],
+        "space-infix-ops": [2, {"int32Hint": false}]
     },
     "env": {
         "browser": true
@@ -39,7 +25,9 @@
         "TinyTale": true,
         "Viewport": true,
         "Log": true,
-        "Display": true
+        "Display": true,
+        "Tile": true,
+        "darken": true
     },
     "extends": "eslint:recommended"
 }

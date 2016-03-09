@@ -11,5 +11,5 @@ ScreenManager.prototype.pop = function() {
 };
 
 ScreenManager.prototype.step = function(display, mouse) {
-    this.screens[this.screens.length-1].step(display, mouse);
+    this.screens[this.screens.length - 1].step(display, mouse);
 };

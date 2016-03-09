@@ -7,9 +7,13 @@ function Display(width, height, fontSize) {
     });
 }
 
-Display.prototype.write = function(x, y, str, fg, bg) {
+Display.prototype.write = function(x, y, str, fg, bg, alpha) {
     for (var i = 0; i < str.length; i++) {
-        this._display.draw(x+i, y, str[i], fg, bg);
+        if (alpha) {
+            this._display.draw(x + i, y, str[i], fg ? darken(fg, alpha) : null, bg ? darken(bg, alpha) : null);
+            continue;
+        }
+        this._display.draw(x + i, y, str[i], fg, bg);
     }
 };
 
@@ -17,11 +21,11 @@ Display.prototype.rect = function(x, y, width, height, fg, bg, clear) {
     for (var i = 0; i < width; i++) {
         for (var j = 0; j < height; j++) {
             if (clear) {
-                this._display.draw(x+i, y+j, ' ', fg, bg);
+                this._display.draw(x + i, y + j, ' ', fg, bg);
                 continue;
             }
-            var cell = this._display._data[(x+i) + ',' + (y+j)];
-            this._display.draw(x+i, y+j, cell ? cell[2] : ' ', fg, bg);
+            var cell = this._display._data[(x + i) + ',' + (y + j)];
+            this._display.draw(x + i, y + j, cell ? cell[2] : ' ', fg, bg);
         }
     }
 };
