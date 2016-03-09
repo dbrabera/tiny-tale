@@ -37,16 +37,24 @@ function viewport(display, mouse, x, y, game) {
             var tile = game.map.tile(i, j);
             if (!tile.explored) continue;
 
-            display.write(x + i, y + j, tile.char, tile.fg, tile.bg, tile.visible ? null : 0.7);
+            var shade = tile.visible ? null : 0.5;
+
+            // draw chess grid on floor tiles
+            if (tile.id === 0 && (i + j) % 2 === 0) {
+                shade = shade ? shade + 0.1 : 0.1;
+            }
+
+            display.write(x + i, y + j, tile.char, tile.fg, tile.bg, shade);
 
             var item = game.map.item(i, j);
-            if (item) display.write(i, j, item.char, item.color, tile.bg, tile.visible ? null : 0.7);
+            if (item) display.write(i, j, item.char, item.color, tile.bg, tile.visible ? null : 0.5);
         }
     }
 
     // draw player
-    tile = game.map.tile(game.player.x, game.player.y);
-    display.write(game.player.x, game.player.y, game.player.char, game.player.char.fg, tile.bg);
+    var player = game.player;
+    tile = game.map.tile(player.x, player.y);
+    display.write(player.x, player.y, player.char, player.char.fg, tile.bg, (player.x + player.y) % 2 === 0 ? 0.1 : null);
 
     if (!mouse.game) return;
 
@@ -56,7 +64,7 @@ function viewport(display, mouse, x, y, game) {
     // draw mouse trace
     var path = game.map.findPath(game.player, mouse.game);
     for (i = 1; i < path.length - 1; i++) {
-        display.rect(path[i].x, path[i].y, 1, 1, '#ffffff', '#3f3f74');
+        display.rect(path[i].x, path[i].y, 1, 1, '#000000', '#9badb7', (path[i].x + path[i].y) % 2 === 0 ? 0.1 : null);
     }
 }
 
