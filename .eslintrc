@@ -33,7 +33,9 @@
         "Player": true,
         "ROT": true,
         "ScreenManager": true,
-        "TILES": true,
+        "TILE_TYPES": true,
+        "ITEM_TYPES": true,
+        "Inventory": true,
         "TinyTale": true,
         "Viewport": true,
         "HUD": true
