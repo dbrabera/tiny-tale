@@ -17,6 +17,12 @@ GameScreen.prototype.step = function(display, mouse) {
     viewport(display, mouse, 0, 0, this.game);
     description(display, mouse, 0, 50, this.game);
     hud(display, 60, 0, this.game);
+
+    // check if the game is over
+    var tile = this.game.map.tile(this.game.player.x, this.game.player.y);
+    if (tile.id === 3) {
+        this.screens.pop();
+    }
 };
 
 function viewport(display, mouse, x, y, game) {

@@ -7,7 +7,7 @@ ScreenManager.prototype.push = function(screen) {
 };
 
 ScreenManager.prototype.pop = function() {
-    this.screens.pop;
+    this.screens.pop();
 };
 
 ScreenManager.prototype.step = function(display, mouse) {
