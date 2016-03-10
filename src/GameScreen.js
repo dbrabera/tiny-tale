@@ -49,10 +49,16 @@ function viewport(display, mouse, x, y, game) {
                 shade = shade ? shade + 0.1 : 0.1;
             }
 
-            display.write(x + i, y + j, tile.char, tile.fg, tile.bg, shade);
-
             var item = game.map.item(i, j);
-            if (item) display.write(i, j, item.char, item.color, tile.bg, tile.visible ? null : 0.5);
+            if (item) {
+                display.write(i, j, item.char, item.color, tile.bg, tile.visible ? null : 0.5);
+                continue;
+            }
+
+            var char = !tile.surface ? tile.char : tile.surface.char;
+            var fg = !tile.surface ? tile.fg : tile.surface.color;
+
+            display.write(x + i, y + j, char, fg, tile.bg, shade);
         }
     }
 
@@ -108,7 +114,7 @@ function description(display, mouse, x, y, game) {
     }
 
     if (tile.walkable) {
-        display.write(x, y, 'Move to ' + tile.description + '.');
+        display.write(x, y, 'Move to ' + (!tile.surface ? tile.description : tile.surface.description) + '.');
         return;
     }
 

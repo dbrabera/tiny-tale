@@ -56,8 +56,12 @@ Monster.prototype.turn = function() {
 
 Monster.prototype.defend = function(attacker, attack, damage) {
     this.health.current -= damage;
+    this.game.map.tiles[this.x][this.y].surface = SURFACE_TYPES[0]; // pile of blood
 
-    if(this.health.current > 0) return;
+    if(this.health.current > 0) {
+        this.game.log.success(attacker + ' ' + attack + ' ' + this.description + '.');
+        return;
+    }
 
     this.game.log.success(attacker + ' killed ' + this.description + '.');
     this.game.map.kill(this.x, this.y);

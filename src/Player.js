@@ -78,6 +78,7 @@ Player.prototype.turn = function() {
 
 Player.prototype.defend = function(attacker, attack, damage) {
     this.health.current -= damage;
+    this.game.map.tiles[this.x][this.y].surface = SURFACE_TYPES[0]; // pile of blood
 
     if(this.health.current > 0) {
         this.game.log.danger('The ' + attacker + ' ' + attack + ' you.');

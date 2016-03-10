@@ -5,6 +5,10 @@ var TILE_TYPES = [
     {id: 3, char: 'Ω', fg: '#d77bba', bg: '#76428a', description: 'the dungeon exit', walkable: true, transparent: true}
 ];
 
+var SURFACE_TYPES = [
+    {id: 0, char: '.', color: '#ac3232', description: 'the pool of blood'}
+];
+
 function Tile(type) {
     this.id = type.id;
     this.char = type.char;
