@@ -1,4 +1,8 @@
-function Map(game, width, height) {
+var MAP_TYPES = [
+    {id: 0, monsters: {count: 10, types: [0, 1]}}
+];
+
+function Map(game, type, width, height) {
     this.width = width;
     this.height = height;
 
@@ -21,9 +25,20 @@ function Map(game, width, height) {
     this.items[selected.center.x][selected.center.y] = ITEM_TYPES[0];
 
     // place monsters
-    for (var i = 0; i < this._rooms.length; i++) {
-        var room = this._rooms[i];
-        this.monsters.push(new Monster(MONSTER_TYPE[0], game, room._x1, room._y1));
+    for (var i = 0; i < type.monsters.count; i++) {
+        var room = randchoice(this._rooms);
+
+        // try to find an empty position for the monster
+        var position = randpositon(room._x1, room._y1, room._x2, room._y2);
+        var tries = 0;
+        while (!this.empty(position.x, position.y) && tries < 10) {
+            position = randpositon(room._x1, room._y1, room._x2, room._y2);
+            tries += 1;
+        }
+
+        if (tries >= 10) continue;
+
+        this.monsters.push(new Monster(MONSTER_TYPE[randchoice(type.monsters.types)], game, position.x, position.y));
     }
 
 
@@ -90,6 +105,13 @@ Map.prototype.transparent = function(x, y) {
     return this.tiles[x][y].transparent || (this._fovOrigin.x === x && this._fovOrigin.y === y);
 };
 
+Map.prototype.empty = function(x, y) {
+    // entry or spawn point
+    if ((x === this.entry.x || x === this.entry.x - 1) && y === this.entry.y) return false;
+
+    return !this.item(x, y) && !this.monster(x, y);
+};
+
 Map.prototype.findPath = function(from, to) {
     if (from.x === to.x && from.y === to.y) return [];
     if (!this.walkable(to.x, to.y)) return [];
@@ -132,4 +154,16 @@ function generator(width, height) {
     }
 
     return {tiles: tiles, rooms: rooms};
+}
+
+function randchoice(array) {
+    return array[Math.floor(Math.random() * array.length)];
+}
+
+function randpositon(x1, y1, x2, y2) {
+    return {x: randint(x1, x2), y: randint(y1, y2)};
+}
+
+function randint(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }

@@ -6,7 +6,8 @@ var TILE_TYPES = [
 ];
 
 var SURFACE_TYPES = [
-    {id: 0, char: '.', color: '#ac3232', description: 'the pool of blood'}
+    {id: 0, char: '*', color: '#ac3232', description: 'the pool of blood'},
+    {id: 1, char: '*', color: '#6abe30', description: 'the pool of green blood'}
 ];
 
 function Tile(type) {
