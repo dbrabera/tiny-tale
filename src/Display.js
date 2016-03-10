@@ -1,8 +1,8 @@
-function Display(width, height, fontSize) {
+function Display(width, height) {
     this._display = new ROT.Display({
         width: width,
         height: height,
-        fontSize: fontSize,
+        fontSize: calcFontSize(window.innerWidth, window.innerHeight),
         forceSquareRatio: true
     });
 }
@@ -37,3 +37,23 @@ Display.prototype.node = function() {
 Display.prototype.eventToPosition = function(event) {
     return this._display.eventToPosition(event);
 };
+
+function calcFontSize(width, height) {
+    if (width >= 1440 && height >= 1080) {
+        return 20;
+    }
+
+    if (width >= 1280 && height >= 1024) {
+        return 18;
+    }
+
+    if (width >= 1280 && height >= 900) {
+        return 16;
+    }
+
+    if (width >= 1280 && height >= 768) {
+        return 14;
+    }
+
+    return 12;
+}

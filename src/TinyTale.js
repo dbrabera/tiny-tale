@@ -1,5 +1,5 @@
 function TinyTale(node) {
-    this.display = new Display(80, 60, 16);
+    this.display = new Display(80, 60);
     node.appendChild(this.display.node());
 
     this.input = new InputManager(this.display);
