@@ -122,7 +122,7 @@ function description(display, mouse, x, y, game) {
 }
 
 function hud(display, x, y, game) {
-    display.write(x + 1, y, game.player.char + ': You');
+    display.write(x + 1, y, game.player.char + ': You', '#ffffff');
     bar(display, x, y + 1, 'Health', game.player.health.current, game.player.health.max , '#ffffff', '#ac3232');
     inventory(display, x, y + 3, game.player.inventory);
 }
@@ -145,6 +145,7 @@ function bar(display, x, y, label, value, capacity, fg, bg) {
     var filledUntil = Math.floor(20 * value / capacity);
     display.write(x + 1, y, label + ' ' + value + '/' + capacity, fg, bg);
     display.rect(x, y, filledUntil, 1, fg, bg);
+    display.rect(x + filledUntil, y, capacity, 1, fg, darken(bg, 0.5));
 }
 
 function log(display, x, y, log) {
