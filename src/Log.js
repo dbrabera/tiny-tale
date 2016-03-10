@@ -12,7 +12,7 @@ Log.prototype.entry = function(i) {
     return this._entries[i];
 };
 
-Log.prototype.info = function(message, initial) {
+Log.prototype._log = function(level, message, initial) {
     if (this._entries[0] && this._entries[0].message === message) {
         this._entries[0].count += 1;
         this._entries[0].turn = this._turn;
@@ -23,7 +23,20 @@ Log.prototype.info = function(message, initial) {
         this._entries[i] = this._entries[i - 1];
     }
 
-    this._entries[0] = {level: 'info', message: message, count: 1, turn: this._turn, initial: initial};
+    this._entries[0] = {level: level, message: message, count: 1, turn: this._turn, initial: initial};
+
+};
+
+Log.prototype.info = function(message, initial) {
+    return this._log('info', message, initial);
+};
+
+Log.prototype.danger = function(message, initial) {
+    return this._log('danger', message, initial);
+};
+
+Log.prototype.success = function(message, initial) {
+    return this._log('success', message, initial);
 };
 
 Log.prototype.old = function(entry) {

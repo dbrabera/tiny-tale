@@ -80,9 +80,9 @@ Player.prototype.defend = function(attacker, attack, damage) {
     this.health.current -= damage;
 
     if(this.health.current > 0) {
-        this.game.log.info('The ' + attacker + ' ' + attack + ' you.');
+        this.game.log.danger('The ' + attacker + ' ' + attack + ' you.');
         return;
     }
 
-    this.game.log.info(attacker.name + ' killed you.');
+    this.game.log.danger(attacker.name + ' killed you.');
 };

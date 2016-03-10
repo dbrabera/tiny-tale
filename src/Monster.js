@@ -59,6 +59,6 @@ Monster.prototype.defend = function(attacker, attack, damage) {
 
     if(this.health.current > 0) return;
 
-    this.game.log.info(attacker + ' killed ' + this.description + '.');
+    this.game.log.success(attacker + ' killed ' + this.description + '.');
     this.game.map.kill(this.x, this.y);
 };

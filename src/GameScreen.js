@@ -146,8 +146,15 @@ function log(display, x, y, log) {
         var entry = log.entry(i);
         if (!entry) return;
 
+        var color = '#ffffff';
+        if (entry.level === 'danger') {
+            color = '#ac3232';
+        } else if (entry.level === 'success') {
+            color = '#5b6ee1';
+        }
+
         var message = entry.message + (entry.count > 1 ? ' x' + entry.count : '');
-        display.write(x, y + i, message, log.old(entry) ? '#5d6468' : '#ffffff');
+        display.write(x, y + i, message, color, null, log.old(entry) ? 0.5 : null);
     }
 }
 
