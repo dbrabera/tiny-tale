@@ -111,12 +111,12 @@ function description(display, mouse, x, y, game) {
     }
 
     if (game.map.item(mouse.game.x, mouse.game.y)) {
-        display.write(x, y, 'Move to ' + game.map.item(mouse.game.x, mouse.game.y).description + '.');
+        display.write(x, y, 'Pick ' + game.map.item(mouse.game.x, mouse.game.y).description + '.');
         return;
     }
 
-    if (tile.walkable && (tile.id === 2 || tile.id === 3)) {
-        display.write(x, y, 'Open ' + tile.description + '.');
+    if (tile.activable) {
+        display.write(x, y, capitalize(tile.verb) + ' ' + tile.description + '.');
         return;
     }
 
@@ -174,4 +174,8 @@ function log(display, x, y, log) {
 
 function grid(x, y, color) {
     return (x + y) % 2 === 0 ? darken(color, 0.1) : color;
+}
+
+function capitalize(s) {
+    return s[0].toUpperCase() + s.slice(1);
 }

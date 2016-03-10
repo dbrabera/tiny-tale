@@ -1,5 +1,5 @@
 var MAP_TYPES = [
-    {id: 0, monsters: {count: 10, types: [0, 1]}}
+    {id: 0, monsters: [0, 1], enemies: 10, chests: 10, items: [2]}
 ];
 
 function Map(game, type, width, height) {
@@ -11,6 +11,7 @@ function Map(game, type, width, height) {
     this._rooms = maze.rooms;
 
     this.items = matrix(width, height);
+    this._items = type.items;
 
     this.monsters = [];
 
@@ -20,12 +21,12 @@ function Map(game, type, width, height) {
     // place dungeon exit
     this.tiles[this.entry.x][this.entry.y] = new Tile(TILE_TYPES[3]);
 
-    // place the amulet of yendor
+    // place the chest with the amulet of yendor
     var selected = this._rooms[this._rooms.length - 1];
-    this.items[selected.center.x][selected.center.y] = ITEM_TYPES[0];
+    this.tiles[selected.center.x][selected.center.y] = new Tile(TILE_TYPES[5]);
 
     // place monsters
-    for (var i = 0; i < type.monsters.count; i++) {
+    for (var i = 0; i < type.enemies; i++) {
         var room = randchoice(this._rooms);
 
         // try to find an empty position for the monster
@@ -38,7 +39,19 @@ function Map(game, type, width, height) {
 
         if (tries >= 10) continue;
 
-        this.monsters.push(new Monster(MONSTER_TYPE[randchoice(type.monsters.types)], game, position.x, position.y));
+        this.monsters.push(new Monster(MONSTER_TYPE[randchoice(type.monsters)], game, position.x, position.y));
+    }
+
+    // place chests
+    for (i = 0; i < type.chests; i++) {
+        room = randchoice(this._rooms);
+        position = randpositon(room._x1, room._y1, room._x2, room._y2);
+        tries = 0;
+        while (!this.empty(position.x, position.y) && tries < 10) {
+            position = randpositon(room._x1, room._y1, room._x2, room._y2);
+            tries += 1;
+        }
+        this.tiles[position.x][position.y] = new Tile(TILE_TYPES[4]);
     }
 
 

@@ -36,18 +36,18 @@ Player.prototype.go = function(x, y) {
         }
 
         var next = path[1];
-        // check if the next position it's the dungeon exit and we have the amulet
-        var tile = this.game.map.tile(next.x, next.y);
-        if (tile.id === 3 && !this.inventory.contains(0)) {
-            this.game.log.info('You try to open the door, but it\'s magically sealed.');
-            this.action = null;
-            return true;
-        }
 
         // check if there is a monster there
         var monster = this.game.map.monster(next.x, next.y);
         if (monster) {
             monster.defend(this.name, 'hit', this.strength.current);
+            this.action = null;
+            return true;
+        }
+        
+        // check if the next position it's activable
+        var tile = this.game.map.tile(next.x, next.y);
+        if (tile.activable && !tile.activate(this.game, this, next.x, next.y)) {
             this.action = null;
             return true;
         }
