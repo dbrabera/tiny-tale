@@ -4,9 +4,15 @@ function GameScreen(screens) {
 
     this.game.log.info('Find the Amulet of Yendor and escape with it alive.', true);
     this.game.log.info('Welcome, adventurer!', true);
+
+    this._isOver = false;
 }
 
 GameScreen.prototype.step = function(display, mouse) {
+    if (this._isOver && mouse.clicked) {
+        this.screens.pop();
+    }
+
     if (mouse.x >= 0 && mouse.x < 60 && mouse.y >= 0 && mouse.y < 50) {
         mouse.game = {x: mouse.x, y: mouse.y};
     }
@@ -19,13 +25,14 @@ GameScreen.prototype.step = function(display, mouse) {
 
     // check if the player exited the dungeon
     var tile = this.game.map.tile(this.game.player.x, this.game.player.y);
-    if (tile.id === 3) {
-        this.screens.pop();
+    if (!this._isOver && tile.id === 3) {
+        this.game.log.success('Congratulations! You escaped the dungeon alive.');
+        this._isOver = true;
     }
 
     // check if the player is dead
     if (this.game.player.health.current <= 0) {
-        this.screens.pop();
+        this._isOver = true;
     }
 
     viewport(display, mouse, 0, 0, this.game);

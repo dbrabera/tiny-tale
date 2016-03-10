@@ -85,5 +85,6 @@ Player.prototype.defend = function(attacker, attack, damage) {
         return;
     }
 
-    this.game.log.danger(attacker.name + ' killed you.');
+    this.health.current = 0;
+    this.game.log.danger('The ' + attacker + ' killed you.');
 };
