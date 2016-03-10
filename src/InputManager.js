@@ -11,7 +11,7 @@ function InputManager(display) {
 }
 
 InputManager.prototype.handleClick = function(event) {
-    if (event.button != 0) return;
+    if (event.button !== 0) return;
     this._mouse.clicked = true;
 };
 

@@ -38,7 +38,7 @@ MainMenuScreen.prototype.step = function(display, mouse) {
 };
 
 function button(display, mouse, x, y, label) {
-    var selected = mouse.x >= x && mouse.x < x + label.length && mouse.y == y;
+    var selected = mouse.x >= x && mouse.x < x + label.length && mouse.y === y;
 
     if (selected) {
         display.write(x - 1, y, ' ', '#000000', '#ffffff', 0.25);

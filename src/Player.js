@@ -1,12 +1,20 @@
 function Player(game, x, y) {
     this.char = '@';
+    this.name = 'You';
     this.description = 'yourself';
     this.fg = '#000000';
 
-    this.strength = 15;
-    this.stamina = 10;
-    this.health = 15;
-    this.energy = 10;
+    this.health = {
+        base: 20,
+        current: 20,
+        max: 20
+    };
+
+    this.strength = {
+        base: 4,
+        current: 4,
+        max: 4
+    };
 
     this.game = game;
     this.x = x;
@@ -22,7 +30,7 @@ Player.prototype.go = function(x, y) {
     this.action = function() {
         var path = this.game.map.findPath(this, {x: x, y: y});
         // check if there is no path to the position
-        if (!path || path.length == 0) {
+        if (!path || path.length === 0) {
             this.action = null;
             return;
         }
@@ -30,8 +38,16 @@ Player.prototype.go = function(x, y) {
         var next = path[1];
         // check if the next position it's the dungeon exit and we have the amulet
         var tile = this.game.map.tile(next.x, next.y);
-        if (tile.id == 3 && !this.inventory.contains(0)) {
+        if (tile.id === 3 && !this.inventory.contains(0)) {
             this.game.log.info('You try to open the door, but it\'s magically sealed.');
+            this.action = null;
+            return true;
+        }
+
+        // check if there is a monster there
+        var monster = this.game.map.monster(next.x, next.y);
+        if (monster) {
+            monster.defend(this.name, 'hit', this.strength.current);
             this.action = null;
             return true;
         }
@@ -58,4 +74,15 @@ Player.prototype.go = function(x, y) {
 Player.prototype.turn = function() {
     if (this.action == null) return false;
     return this.action();
+};
+
+Player.prototype.defend = function(attacker, attack, damage) {
+    this.health.current -= damage;
+
+    if(this.health.current > 0) {
+        this.game.log.info('The ' + attacker + ' ' + attack + ' you.');
+        return;
+    }
+
+    this.game.log.info(attacker.name + ' killed you.');
 };

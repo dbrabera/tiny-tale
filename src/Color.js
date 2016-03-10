@@ -4,7 +4,7 @@ function darken(color, amount) {
     if (colors['darken:' + color + ':' + amount]) return colors['darken:' + color + ':' + amount];
 
     function pad(n) {
-        return n.length == 2 ? n : '0' + n;
+        return n.length === 2 ? n : '0' + n;
     }
 
     var r = Math.floor(parseInt(color.substring(1, 3), 16) * (1 - amount));

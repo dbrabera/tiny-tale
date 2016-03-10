@@ -9,7 +9,7 @@ Inventory.prototype.full = function() {
 };
 
 Inventory.prototype.add = function(item) {
-    if (this.length == this.capacity) return;
+    if (this.length === this.capacity) return;
     this._items.push(item);
     this.length += 1;
 };
@@ -27,7 +27,7 @@ Inventory.prototype.remove = function(i) {
 
 Inventory.prototype.contains = function(id) {
     for (var i = 0; i < this._items.length; i++) {
-        if (this._items[i].id == id) return true;
+        if (this._items[i].id === id) return true;
     }
     return false;
 };

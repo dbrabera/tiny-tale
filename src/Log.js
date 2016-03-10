@@ -13,7 +13,7 @@ Log.prototype.entry = function(i) {
 };
 
 Log.prototype.info = function(message, initial) {
-    if (this._entries[0] && this._entries[0].message == message) {
+    if (this._entries[0] && this._entries[0].message === message) {
         this._entries[0].count += 1;
         this._entries[0].turn = this._turn;
         return;

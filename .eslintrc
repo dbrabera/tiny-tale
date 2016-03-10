@@ -5,7 +5,8 @@
         "quotes": [2, "single"],
         "linebreak-style": [2, "unix"],
         "semi": [2, "always"],
-        "space-infix-ops": [2, {"int32Hint": false}]
+        "space-infix-ops": [2, {"int32Hint": false}],
+        "eqeqeq": [2, "smart"]
     },
     "env": {
         "browser": true
@@ -27,7 +28,9 @@
         "Log": true,
         "Display": true,
         "Tile": true,
-        "darken": true
+        "darken": true,
+        "Monster": true,
+        "MONSTER_TYPE": true
     },
     "extends": "eslint:recommended"
 }
