@@ -29,6 +29,7 @@
         "Display": true,
         "Tile": true,
         "darken": true,
+        "randchoice": true,
         "Monster": true,
         "MONSTER_TYPE": true,
         "SURFACE_TYPES": true,

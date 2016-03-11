@@ -39,7 +39,7 @@ GameScreen.prototype.step = function(display, mouse) {
     description(display, mouse, 0, 51, this.game);
     log(display, 0, 53, this.game.log);
 
-    hud(display, 60, 0, this.game);
+    hud(display, mouse, 60, 0, this.game);
 };
 
 function viewport(display, mouse, x, y, game) {
@@ -128,23 +128,55 @@ function description(display, mouse, x, y, game) {
     display.write(x, y, (tile.visible ? 'You see ' : 'You remember seeing ') + tile.description + '.');
 }
 
-function hud(display, x, y, game) {
+function hud(display, mouse, x, y, game) {
     display.write(x + 1, y, game.player.char + ': You', '#ffffff');
     bar(display, x, y + 1, 'Health', game.player.health.current, game.player.health.max , '#ffffff', '#ac3232');
-    inventory(display, x, y + 3, game.player.inventory);
+    inventory(display, mouse, x, y + 3, game.player);
 }
 
-function inventory(display, x, y, inventory) {
-    display.write(x + 1, y, 'Inventory');
-    for (var i = 0; i < inventory.capacity; i++) {
-        var item = inventory.item(i);
+function inventory(display, mouse, x, y, player) {
+    var mouseover = mouse.x >= x && mouse.x < x + 20 && mouse.y >= y && mouse.y < y + 14;
+
+    var names = ['Weapon', 'Armor', 'Amulet', 'Ring'];
+    for (var i = 0; i < names.length; i++) {
+        var item = player.slots[i];
+
+        display.write(x + 1, y + (i * 3), names[i], '#ffffff');
+
         if (!item) {
-            display.write(x + 1, y + i + 1, '..................', '#5d6468');
+            display.write(x + 1, y + (i * 3) + 1, 'Nothing', '#ffffff', null, 0.5);
             continue;
         }
 
-        display.write(x + 1, y + i + 1, item.char, item.color);
-        display.write(x + 3, y + i + 1, item.name, '#ffffff');
+        if (mouseover && mouse.y === y + (i * 3) + 1) {
+            if (mouse.clicked) player.drop(i);
+
+            display.rect(x, y + (i * 3) + 1, 20, 1, null, '#ffffff');
+            display.write(x + 1, y + (i * 3) + 1, item.char + ' ' + capitalize(item.name), '#000000', '#ffffff');
+            continue;
+        }
+
+        display.write(x + 1, y + (i * 3) + 1, item.char, item.color);
+        display.write(x + 3, y + (i * 3) + 1, capitalize(item.name));
+    }
+
+    if (player.potions === 0) {
+        display.write(x + 1, y + 13, 'No health potions', '#ffffff', null, 0.5);
+        return;
+    }
+
+    var label = player.potions === 1 ? 'Health potion' : 'Health potions x' + player.potions;
+
+    if (mouseover && mouse.y === y + 13) {
+        if (mouse.clicked) player.heal();
+
+        display.rect(x, y + 13, 20, 1, null, '#ffffff');
+
+        display.write(x + 1, y + 13, ITEM_TYPES[2].char, '#000000', '#ffffff');
+        display.write(x + 3, y + 13, label, '#000000', '#ffffff');
+    } else {
+        display.write(x + 1, y + 13, ITEM_TYPES[2].char, ITEM_TYPES[2].color);
+        display.write(x + 3, y + 13, label, '#ffffff');
     }
 }
 

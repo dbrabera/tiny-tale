@@ -36,7 +36,7 @@ Tile.prototype.activate = function(game, actor, x, y) {
 
     // dungeon exit only allows to access with the Amulet Of Yendor
     if (this.id === 3) {
-        if (actor.inventory.contains(0)) return true;
+        if (actor.slots[2] && actor.slots[2].id === 0) return true;
         game.log.info('You try to open the door, but it\'s magically sealed.');
         return false;
     }

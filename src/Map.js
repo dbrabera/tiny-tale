@@ -79,10 +79,8 @@ Map.prototype.tile = function(x, y) {
     return this.tiles[x][y];
 };
 
-Map.prototype.item = function(x, y, remove) {
-    var item = this.items[x][y];
-    if (remove) this.items[x][y] = null;
-    return item;
+Map.prototype.item = function(x, y) {
+    return this.items[x][y];
 };
 
 Map.prototype.monster = function(x, y) {

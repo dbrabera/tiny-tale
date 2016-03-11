@@ -41,13 +41,15 @@ function button(display, mouse, x, y, label) {
     var selected = mouse.x >= x && mouse.x < x + label.length && mouse.y === y;
 
     if (selected) {
-        display.write(x - 1, y, ' ', '#000000', '#ffffff', 0.25);
-        display.write(x - 2, y, ' ', '#000000', '#ffffff', 0.5);
+        display.write(x - 1, y, ' ', '#000000', '#ffffff');
+        display.write(x - 2, y, ' ', '#000000', '#ffffff', 0.25);
+        display.write(x - 3, y, ' ', '#000000', '#ffffff', 0.5);
 
         display.write(x, y, label, '#000000', '#ffffff');
 
-        display.write(x + label.length, y, ' ', '#000000', '#ffffff', 0.25);
-        display.write(x + label.length + 1, y, ' ', '#000000', '#ffffff', 0.5);
+        display.write(x + label.length, y, ' ', '#000000', '#ffffff');
+        display.write(x + label.length + 1, y, ' ', '#000000', '#ffffff', 0.25);
+        display.write(x + label.length + 2, y, ' ', '#000000', '#ffffff', 0.5);
     } else {
         display.write(x, y, label, '#9badb7', '#000000');
     }
