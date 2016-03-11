@@ -5,6 +5,8 @@ function Game(width, height) {
     this.map.fov(this.player.x, this.player.y);
 
     this.log = new Log();
+    
+    this.started = Date.now();
 }
 
 Game.prototype.turn = function() {

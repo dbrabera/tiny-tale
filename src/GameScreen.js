@@ -133,6 +133,23 @@ function hud(display, mouse, x, y, game) {
     bar(display, x, y + 1, 'Health', game.player.health.current, game.player.health.max , '#ffffff', '#ac3232');
     stats(display, x, y + 3, game.player);
     inventory(display, mouse, x, y + 6, game.player);
+    score(display, x, y + 21, game);
+}
+
+function score(display, x, y, game) {
+    function pad(n) {
+        return n >= 10 ? '' + n : '0' + n;
+    }
+
+    var elapsed = (Date.now() - game.started) / 1000;
+    var minutes = Math.round(elapsed / 60 % 60);
+    var hours = Math.round(elapsed / 60 / 60 % 60);
+
+    display.write(x + 1, y, 'Time:', '#ffffff');
+    display.write(x + 7, y, pad(hours) + ':' + pad(minutes));
+
+    display.write(x + 1, y + 1, 'Gold:', '#ffffff');
+    display.write(x + 7, y + 1, '' + game.player.gold);
 }
 
 function stats(display, x, y, player) {

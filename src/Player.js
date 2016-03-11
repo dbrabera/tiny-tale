@@ -43,6 +43,7 @@ function Player(game, x, y) {
     this.defense.current += ITEM_TYPES[4].defense;
 
     this.potions = 1;
+    this.gold = 0;
 }
 
 Player.prototype.go = function(x, y) {
@@ -115,7 +116,16 @@ Player.prototype.pick = function(item, x, y) {
         this.potions += 1;
         this.game.map.items[x][y] = null;
 
-        this.game.log.info('You picked ' + item.description + '.');
+        this.game.log.info('You pick ' + item.description + '.');
+        return true;
+    }
+
+    // check if is gold
+    if (item.slot === 5) {
+        this.gold += item.value;
+        this.game.map.items[x][y] = null;
+
+        this.game.log.info('You pick ' + item.description + '.');
         return true;
     }
 
@@ -135,7 +145,7 @@ Player.prototype.pick = function(item, x, y) {
     this.defense.max += item.defense;
     this.defense.current += item.defense;
 
-    this.game.log.info('You picked ' + item.description + '.');
+    this.game.log.info('You pick ' + item.description + '.');
 
     return true;
 };

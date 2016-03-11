@@ -1,5 +1,5 @@
 var MAP_TYPES = [
-    {id: 0, monsters: [0, 1], enemies: 10, chests: 10, items: [2]}
+    {id: 0, monsters: [0, 1], enemies: 10, chests: 10, items: [1, 2]}
 ];
 
 function Map(game, type, width, height) {
