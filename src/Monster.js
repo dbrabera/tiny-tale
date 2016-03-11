@@ -1,6 +1,6 @@
 var MONSTER_TYPE = [
-    {id: 0, char: 'r', color: '#31a2f2', name: 'rat', description: 'the rat', verb: 'bites', health: 4, attack: 2, defense: 0, remains: 0},
-    {id: 1, char: 'c', color: '#8f563b', name: 'giant cocroatch', description: 'the giant cocroatch', verb: 'bites', health: 6, attack: 3, defense: 2, remains: 1}
+    {id: 0, char: 'r', color: '#31a2f2', name: 'rat', description: 'the rat', verb: 'bites', health: 4, attack: 4, defense: 0, remains: 0},
+    {id: 1, char: 'c', color: '#8f563b', name: 'giant cocroatch', description: 'the giant cocroatch', verb: 'bites', health: 6, attack: 5, defense: 2, remains: 1}
 ];
 
 function Monster(type, game, x, y) {
@@ -54,7 +54,13 @@ Monster.prototype.turn = function() {
 };
 
 Monster.prototype.defend = function(attacker, verb, attack) {
-    this.health.current -= attack;
+    var damage = attack - this.defense;
+    if (damage <= 0) {
+        this.game.log.info(attacker + ' missed ' + this.description + '.');
+        return;
+    }
+
+    this.health.current -= damage;
     this.game.map.tiles[this.x][this.y].surface = SURFACE_TYPES[this.remains];
 
     if(this.health.current > 0) {

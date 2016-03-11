@@ -93,7 +93,13 @@ Player.prototype.turn = function() {
 };
 
 Player.prototype.defend = function(attacker, verb, attack) {
-    this.health.current -= attack;
+    var damage = attack - this.defense.current;
+    if (damage <= 0) {
+        this.game.log.info('The ' + attacker + ' missed you.');
+        return;
+    }
+
+    this.health.current -= damage;
     this.game.map.tiles[this.x][this.y].surface = SURFACE_TYPES[0]; // pile of blood
 
     if(this.health.current > 0) {
