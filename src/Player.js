@@ -10,10 +10,16 @@ function Player(game, x, y) {
         max: 20
     };
 
-    this.strength = {
-        base: 4,
-        current: 4,
-        max: 4
+    this.attack = {
+        base: 2,
+        current: 2,
+        max: 2
+    };
+
+    this.defense = {
+        base: 1,
+        current: 1,
+        max: 1
     };
 
     this.game = game;
@@ -22,12 +28,19 @@ function Player(game, x, y) {
 
     this.action = null;
 
+    // add initial items
     this.slots = [
         ITEM_TYPES[3],
         ITEM_TYPES[4],
         null,
         null
     ];
+
+    this.attack.max += ITEM_TYPES[3].attack;
+    this.attack.current += ITEM_TYPES[3].attack;
+
+    this.defense.max += ITEM_TYPES[4].defense;
+    this.defense.current += ITEM_TYPES[4].defense;
 
     this.potions = 1;
 }
@@ -46,7 +59,8 @@ Player.prototype.go = function(x, y) {
         // check if there is a monster there
         var monster = this.game.map.monster(next.x, next.y);
         if (monster) {
-            monster.defend(this.name, 'hit', this.strength.current);
+            var weapon = this.weapon();
+            monster.defend(this.name, weapon ? weapon.verb : 'hit', this.attack.current);
             this.action = null;
             return true;
         }
@@ -77,12 +91,12 @@ Player.prototype.turn = function() {
     return this.action();
 };
 
-Player.prototype.defend = function(attacker, attack, damage) {
-    this.health.current -= damage;
+Player.prototype.defend = function(attacker, verb, attack) {
+    this.health.current -= attack;
     this.game.map.tiles[this.x][this.y].surface = SURFACE_TYPES[0]; // pile of blood
 
     if(this.health.current > 0) {
-        this.game.log.danger('The ' + attacker + ' ' + attack + ' you.');
+        this.game.log.danger('The ' + attacker + ' ' + verb + ' you.');
         return;
     }
 
@@ -115,6 +129,12 @@ Player.prototype.pick = function(item, x, y) {
     this.slots[item.slot] = item;
     this.game.map.items[x][y] = null;
 
+    this.attack.max += item.attack;
+    this.attack.current += item.attack;
+
+    this.defense.max += item.defense;
+    this.defense.current += item.defense;
+
     this.game.log.info('You picked ' + item.description + '.');
 
     return true;
@@ -136,6 +156,13 @@ Player.prototype.drop = function(slot) {
         var item = this.slots[slot];
         this.game.map.items[this.x][this.y] = item;
         this.slots[slot] = null;
+
+        this.attack.max -= item.attack;
+        this.attack.current -= item.attack;
+
+        this.defense.max -= item.defense;
+        this.defense.current -= item.defense;
+
         this.game.log.info('You drop the ' + item.name + '.');
         this.action = null;
         return true;
@@ -164,4 +191,8 @@ Player.prototype.heal = function() {
         this.action = null;
         return true;
     };
+};
+
+Player.prototype.weapon = function() {
+    return this.slots[0];
 };

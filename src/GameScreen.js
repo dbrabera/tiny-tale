@@ -131,7 +131,22 @@ function description(display, mouse, x, y, game) {
 function hud(display, mouse, x, y, game) {
     display.write(x + 1, y, game.player.char + ': You', '#ffffff');
     bar(display, x, y + 1, 'Health', game.player.health.current, game.player.health.max , '#ffffff', '#ac3232');
-    inventory(display, mouse, x, y + 3, game.player);
+    stats(display, x, y + 3, game.player);
+    inventory(display, mouse, x, y + 6, game.player);
+}
+
+function stats(display, x, y, player) {
+    var label = 'Attack: ' + player.attack.base;
+    display.write(x + 1, y, label);
+    if (player.attack.current !== player.attack.base) {
+        display.write(x + 1 + label.length, y, '+' + (player.attack.current - player.attack.base), '#6abe30');
+    }
+
+    label = 'Defense: ' + player.defense.base;
+    display.write(x + 1, y + 1, label);
+    if (player.defense.current !== player.defense.base) {
+        display.write(x + 1 + label.length, y + 1, '+' + (player.defense.current - player.defense.base), '#6abe30');
+    }
 }
 
 function inventory(display, mouse, x, y, player) {
@@ -160,6 +175,8 @@ function inventory(display, mouse, x, y, player) {
         display.write(x + 3, y + (i * 3) + 1, capitalize(item.name));
     }
 
+    display.write(x + 1, y + 12, 'Potions', '#ffffff');
+
     if (player.potions === 0) {
         display.write(x + 1, y + 13, 'No health potions', '#ffffff', null, 0.5);
         return;
@@ -176,7 +193,7 @@ function inventory(display, mouse, x, y, player) {
         display.write(x + 3, y + 13, label, '#000000', '#ffffff');
     } else {
         display.write(x + 1, y + 13, ITEM_TYPES[2].char, ITEM_TYPES[2].color);
-        display.write(x + 3, y + 13, label, '#ffffff');
+        display.write(x + 3, y + 13, label);
     }
 }
 

@@ -1,6 +1,6 @@
 var MONSTER_TYPE = [
-    {id: 0, char: 'r', color: '#31a2f2', name: 'rat', description: 'the rat', attack: 'bites', health: 4, strength: 2, remains: 0},
-    {id: 1, char: 'c', color: '#8f563b', name: 'giant cocroatch', description: 'the giant cocroatch', attack: 'bites', health: 6, strength: 3, remains: 1}
+    {id: 0, char: 'r', color: '#31a2f2', name: 'rat', description: 'the rat', verb: 'bites', health: 4, attack: 2, defense: 0, remains: 0},
+    {id: 1, char: 'c', color: '#8f563b', name: 'giant cocroatch', description: 'the giant cocroatch', verb: 'bites', health: 6, attack: 3, defense: 2, remains: 1}
 ];
 
 function Monster(type, game, x, y) {
@@ -11,21 +11,17 @@ function Monster(type, game, x, y) {
 
     this.name = type.name;
     this.description = type.description;
-    this.attack = type.attack;
-
-    this.remains = type.remains;
+    this.verb = type.verb;
 
     this.health = {
-        base: type.health,
         current: type.health,
         max: type.health
     };
 
-    this.strength = {
-        base: type.strength,
-        current: type.strength,
-        max: type.strength
-    };
+    this.attack = type.attack;
+    this.defense = type.defense;
+
+    this.remains = type.remains;
 
     this.game = game;
     this.x = x;
@@ -48,7 +44,7 @@ Monster.prototype.turn = function() {
 
     // check if the player is in the next position
     if (this.game.player.x === next.x && this.game.player.y === next.y) {
-        this.game.player.defend(this.name, this.attack, this.strength.current);
+        this.game.player.defend(this.name, this.verb, this.attack);
         return true;
     }
 
@@ -57,12 +53,12 @@ Monster.prototype.turn = function() {
     this.y = next.y;
 };
 
-Monster.prototype.defend = function(attacker, attack, damage) {
-    this.health.current -= damage;
+Monster.prototype.defend = function(attacker, verb, attack) {
+    this.health.current -= attack;
     this.game.map.tiles[this.x][this.y].surface = SURFACE_TYPES[this.remains];
 
     if(this.health.current > 0) {
-        this.game.log.success(attacker + ' ' + attack + ' ' + this.description + '.');
+        this.game.log.success(attacker + ' ' + verb + ' ' + this.description + '.');
         return;
     }
 
