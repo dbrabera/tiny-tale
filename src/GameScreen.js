@@ -62,8 +62,8 @@ function viewport(display, mouse, x, y, game) {
                 continue;
             }
 
-            var char = (!tile.surface || tile.id === 2) ? tile.char : tile.surface.char;
-            var fg = (!tile.surface || tile.id === 2) ? tile.fg : tile.surface.color;
+            var char = (!tile.surface || tile.activable) ? tile.char : tile.surface.char;
+            var fg = (!tile.surface || tile.activable) ? tile.fg : tile.surface.color;
 
             display.write(x + i, y + j, char, fg, tile.bg, shade);
         }
