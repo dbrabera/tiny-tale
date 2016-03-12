@@ -1,4 +1,4 @@
-function Player(game, x, y) {
+function Player(game) {
     this.char = '@';
     this.name = 'You';
     this.description = 'yourself';
@@ -23,9 +23,6 @@ function Player(game, x, y) {
     };
 
     this.game = game;
-    this.x = x;
-    this.y = y;
-
     this.action = null;
 
     // add initial items
@@ -211,4 +208,8 @@ Player.prototype.heal = function() {
 
 Player.prototype.weapon = function() {
     return this.slots[0];
+};
+
+Player.prototype.amulet = function() {
+    return this.slots[2];
 };

@@ -1,6 +1,6 @@
 function GameScreen(screens) {
     this.screens = screens;
-    this.game = new Game(60, 50);
+    this.game = new Game();
 
     this.game.log.info('Find the Amulet of Yendor and escape with it alive.', true);
     this.game.log.info('Welcome, adventurer!', true);
@@ -23,16 +23,27 @@ GameScreen.prototype.step = function(display, mouse) {
 
     this.game.turn();
 
-    // check if the player exited the dungeon
-    var tile = this.game.map.tile(this.game.player.x, this.game.player.y);
-    if (!this._isOver && tile.id === 3) {
-        this.game.log.success('Congratulations! You escaped the dungeon alive.');
-        this._isOver = true;
-    }
-
     // check if the player is dead
     if (this.game.player.health.current <= 0) {
         this._isOver = true;
+    }
+
+    // check if the player has the Amulet of Yendor
+    if (this.game.player.amulet() && this.game.player.amulet().id === 0 && this.game._level !== 0) {
+        this.game.log.success('You are teleported by the power of the amulet.');
+        this.game.teleport(0); // teleport to the first level
+    }
+
+    var tile = this.game.map.tile(this.game.player.x, this.game.player.y);
+
+    // check if the player exited the dungeon
+    if (!this._isOver && tile.id === 3) {
+        this.game.log.success('Congratulations! You escaped the dungeon alive.');
+        this._isOver = true;
+    } else if (!this._isOver && tile.id === 6) {
+        this.game.down(); // next level
+    } else if (!this._isOver && tile.id === 7) {
+        this.game.up(); // previous level
     }
 
     viewport(display, mouse, 0, 0, this.game);
@@ -132,8 +143,9 @@ function hud(display, mouse, x, y, game) {
     display.write(x + 1, y, game.player.char + ': You', '#ffffff');
     bar(display, x, y + 1, 'Health', game.player.health.current, game.player.health.max , '#ffffff', '#ac3232');
     stats(display, x, y + 3, game.player);
-    inventory(display, mouse, x, y + 6, game.player);
-    score(display, x, y + 21, game);
+    score(display, x, y + 5, game);
+    inventory(display, mouse, x, y + 9, game.player);
+    level(display, x, y + 25, game);
 }
 
 function score(display, x, y, game) {
@@ -145,11 +157,13 @@ function score(display, x, y, game) {
     var minutes = Math.round(elapsed / 60 % 60);
     var hours = Math.round(elapsed / 60 / 60 % 60);
 
-    display.write(x + 1, y, 'Time:', '#ffffff');
-    display.write(x + 7, y, pad(hours) + ':' + pad(minutes));
+    display.write(x + 1, y + 1, 'Time: ' + pad(hours) + ':' + pad(minutes));
+    display.write(x + 1, y + 2, 'Gold: ' + game.player.gold);
+}
 
-    display.write(x + 1, y + 1, 'Gold:', '#ffffff');
-    display.write(x + 7, y + 1, '' + game.player.gold);
+function level(display, x, y, game) {
+    display.write(x + 1, y, 'Location', '#ffffff');
+    display.write(x + 1, y + 1, game._level + ' - ' + game.map.name);
 }
 
 function stats(display, x, y, player) {

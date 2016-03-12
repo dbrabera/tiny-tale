@@ -1,10 +1,14 @@
 var MAP_TYPES = [
-    {id: 0, monsters: [0, 1], enemies: 10, chests: 10, items: [1, 2]}
+    {id: 0, name: 'Ruins', monsters: [0, 1], enemies: 10, chests: 10, items: [1, 2]},
+    {id: 1, name: 'Goblin Camp', monsters: [0, 1], enemies: 10, chests: 10, items: [1, 2]},
+    {id: 2, name: 'Crypt', monsters: [0, 1], enemies: 10, chests: 10, items: [1, 2]}
 ];
 
 function Map(game, type, width, height) {
     this.width = width;
     this.height = height;
+
+    this.name = type.name;
 
     var maze = generator(width, height);
     this.tiles = maze.tiles;
@@ -15,15 +19,23 @@ function Map(game, type, width, height) {
 
     this.monsters = [];
 
-    // select entry position
+    // place entry & exit
     this.entry = this._rooms[1].center;
+    this.exit = this._rooms[this._rooms.length - 1].center;
 
-    // place dungeon exit
-    this.tiles[this.entry.x][this.entry.y] = new Tile(TILE_TYPES[3]);
+    // place the dungeon exit in the first level
+    if (type.id === 0) {
+        this.tiles[this.entry.x][this.entry.y] = new Tile(TILE_TYPES[3]);
+    } else {
+        this.tiles[this.entry.x][this.entry.y] = new Tile(TILE_TYPES[7]);
+    }
 
-    // place the chest with the amulet of yendor
-    var selected = this._rooms[this._rooms.length - 1];
-    this.tiles[selected.center.x][selected.center.y] = new Tile(TILE_TYPES[5]);
+    // place the Amulet of Yendor in the last level
+    if (type.id === 2) {
+        this.tiles[this.exit.x][this.exit.y] = new Tile(TILE_TYPES[5]);
+    } else {
+        this.tiles[this.exit.x][this.exit.y] = new Tile(TILE_TYPES[6]);
+    }
 
     // place monsters
     for (var i = 0; i < type.enemies; i++) {

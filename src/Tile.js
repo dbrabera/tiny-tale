@@ -4,7 +4,9 @@ var TILE_TYPES = [
     {id: 2, char: '+', fg: '#df7126', bg: '#8f563b', description: 'the wooden door', walkable: true, transparent: false, activable: true, verb: 'open'},
     {id: 3, char: 'Ω', fg: '#d77bba', bg: '#76428a', description: 'the dungeon exit', walkable: true, transparent: true, activable: true, verb: 'open'},
     {id: 4, char: 'Œ', fg: '#df7126', bg: '#8f563b', description: 'the wooden chest', walkable: true, transparent: true, activable: true, verb: 'open'},
-    {id: 5, char: 'Œ', fg: '#df7126', bg: '#fbf236', description: 'the golden chest', walkable: true, transparent: true, activable: true, verb: 'open'}
+    {id: 5, char: 'Œ', fg: '#df7126', bg: '#fbf236', description: 'the golden chest', walkable: true, transparent: true, activable: true, verb: 'open'},
+    {id: 6, char: '<', fg: '#9badb7', bg: '#323c39', description: 'the downward staircase', walkable: true, transparent: true, activable: true, verb: 'use'},
+    {id: 7, char: '>', fg: '#9badb7', bg: '#323c39', description: 'the upward staircase', walkable: true, transparent: true, activable: true, verb: 'use'}
 ];
 
 var SURFACE_TYPES = [
