@@ -2,7 +2,7 @@ function Player(game) {
     this.char = '@';
     this.name = 'You';
     this.description = 'yourself';
-    this.fg = '#000000';
+    this.fg = '#ffffff';
 
     this.health = {
         base: 20,

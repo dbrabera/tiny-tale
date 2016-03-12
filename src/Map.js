@@ -1,7 +1,7 @@
 var MAP_TYPES = [
-    {id: 0, name: 'Ruins', monsters: [0, 1], enemies: 10, chests: 10, items: [1, 2]},
-    {id: 1, name: 'Goblin Camp', monsters: [0, 1], enemies: 10, chests: 10, items: [1, 2]},
-    {id: 2, name: 'Crypt', monsters: [0, 1], enemies: 10, chests: 10, items: [1, 2]}
+    {id: 0, name: 'Ruins', monsters: [0, 1], enemies: 5, chests: 5, items: [1, 2, 5]},
+    {id: 1, name: 'Goblin Camp', monsters: [2, 3], enemies: 7, chests: 5, items: [1, 2, 5, 6]},
+    {id: 2, name: 'Crypt', monsters: [4, 5], enemies: 10, chests: 2, items: [1, 2, 5, 6]}
 ];
 
 function Map(game, type, width, height) {

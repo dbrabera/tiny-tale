@@ -1,6 +1,10 @@
 var MONSTER_TYPE = [
-    {id: 0, char: 'r', color: '#31a2f2', name: 'rat', description: 'the rat', verb: 'bites', health: 4, attack: 4, defense: 0, remains: 0},
-    {id: 1, char: 'c', color: '#8f563b', name: 'giant cocroatch', description: 'the giant cocroatch', verb: 'bites', health: 6, attack: 5, defense: 2, remains: 1}
+    {id: 0, char: 'r', color: '#31a2f2', name: 'rat', description: 'the rat', verb: 'bites', health: 2, attack: 3, defense: 0, remains: 0},
+    {id: 1, char: 'c', color: '#8f563b', name: 'giant cocroatch', description: 'the giant cocroatch', verb: 'bites', health: 6, attack: 3, defense: 2, remains: 1},
+    {id: 2, char: 'g', color: '#37946e', name: 'goblin scout', description: 'the goblin scout', verb: 'bashes', health: 3, attack: 4, defense: 1, remains: 0},
+    {id: 3, char: 'G', color: '#37946e', name: 'goblin warrior', description: 'the goblin warrior', verb: 'stabs', health: 6, attack: 6, defense: 2, remains: 0},
+    {id: 4, char: 's', color: '#ffffff', name: 'skeleton', description: 'the skeleton', verb: 'bashes', health: 1, attack: 6, defense: 0, remains: 2},
+    {id: 5, char: 'l', color: '#d77bba', name: 'lich', description: 'the lich', verb: 'stabs', health: 10, attack: 6, defense: 2, remains: 1}
 ];
 
 function Monster(type, game, x, y) {
