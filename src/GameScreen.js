@@ -66,23 +66,16 @@ TT.GameScreen.prototype._viewport = function(display, mouse, x, y, game) {
             var tile = game.map.tile(i, j);
             if (!tile.explored) continue;
 
-            var shade = tile.visible ? null : 0.5;
-
-            // draw chess grid on floor tiles
-            if (tile.id === 0 && (i + j) % 2 === 0) {
-                shade = shade ? shade + 0.1 : 0.1;
-            }
-
             var item = game.map.item(i, j);
             if (item) {
-                display.write(i, j, item.char, item.color, tile.bg, tile.visible ? null : 0.5);
+                display.write(i, j, item.char, item.color, grid(i, j, tile.bg), tile.visible ? null : 0.5);
                 continue;
             }
 
             var char = (!tile.surface || tile.activable) ? tile.char : tile.surface.char;
             var fg = (!tile.surface || tile.activable) ? tile.fg : tile.surface.color;
 
-            display.write(x + i, y + j, char, fg, tile.bg, shade);
+            display.write(x + i, y + j, char, fg, grid(i, j, tile.bg), tile.visible ? null : 0.5);
         }
     }
 
