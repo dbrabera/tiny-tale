@@ -6,11 +6,11 @@ TT.Map = function(game, type, width, height) {
 
     this.name = type.name;
 
-    var maze = generator(width, height);
+    var maze = this._generator(width, height);
     this.tiles = maze.tiles;
     this._rooms = maze.rooms;
 
-    this.items = matrix(width, height);
+    this.items = this._matrix(width, height);
     this._items = type.items;
 
     this.monsters = [];
@@ -144,16 +144,16 @@ TT.Map.prototype.findPath = function(from, to) {
     return path;
 };
 
-function matrix(width, height) {
+TT.Map.prototype._matrix = function(width, height) {
     var rows = new Array(width);
     for (var i = 0; i < width; i++) {
         rows[i] = new Array(height);
     }
     return rows;
-}
+};
 
-function generator(width, height) {
-    var tiles = matrix(width, height);
+TT.Map.prototype._generator = function(width, height) {
+    var tiles = this._matrix(width, height);
 
     // dig rooms
     var digger = new ROT.Map.Digger(width, height);
@@ -173,4 +173,4 @@ function generator(width, height) {
     }
 
     return {tiles: tiles, rooms: rooms};
-}
+};
