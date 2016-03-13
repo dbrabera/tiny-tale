@@ -1,4 +1,6 @@
-function MainMenuScreen(screens) {
+var TT = window.TT || {};
+
+TT.MainMenuScreen = function(screens) {
     this.screens = screens;
 
     this._titleChars = [
@@ -22,9 +24,9 @@ function MainMenuScreen(screens) {
         '                          011                                 ',
         '                      111110                                  '
     ];
-}
+};
 
-MainMenuScreen.prototype.step = function(display, mouse) {
+TT.MainMenuScreen.prototype.step = function(display, mouse) {
     var colors = ['#df9726', '#fbf236', '#fffdc0'];
     for (var y = 0; y < this._titleChars.length; y++) {
         for (var x = 0; x < this._titleChars[y].length; x++) {
@@ -32,12 +34,12 @@ MainMenuScreen.prototype.step = function(display, mouse) {
         }
     }
 
-    if (button(display, mouse, 32, 33, 'Start a new game')) {
-        this.screens.push(new GameScreen(this.screens));
+    if (this._button(display, mouse, 32, 33, 'Start a new game')) {
+        this.screens.push(new TT.GameScreen(this.screens));
     }
 };
 
-function button(display, mouse, x, y, label) {
+TT.MainMenuScreen.prototype._button = function(display, mouse, x, y, label) {
     var selected = mouse.x >= x && mouse.x < x + label.length && mouse.y === y;
 
     if (selected) {
@@ -55,4 +57,4 @@ function button(display, mouse, x, y, label) {
     }
 
     return selected && mouse.clicked;
-}
+};

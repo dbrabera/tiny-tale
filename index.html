@@ -4,17 +4,18 @@
         <title>Tiny Tale</title>
         <script src="https://ondras.github.io/rot.js/rot.js"></script>
         <script src="src/Color.js"></script>
+        <script src="src/Content.js"></script>
         <script src="src/Display.js"></script>
         <script src="src/Game.js"></script>ches
         <script src="src/GameScreen.js"></script>
         <script src="src/InputManager.js"></script>
-        <script src="src/Item.js"></script>
         <script src="src/Log.js"></script>
         <script src="src/Log.js"></script>
         <script src="src/MainMenuScreen.js"></script>
         <script src="src/Map.js"></script>
         <script src="src/Monster.js"></script>
         <script src="src/Player.js"></script>
+        <script src="src/Random.js"></script>
         <script src="src/ScreenManager.js"></script>
         <script src="src/Tile.js"></script>
         <script src="src/TinyTale.js"></script>
@@ -33,7 +34,7 @@
     <body></body>
     <script>
         window.onload = function() {
-            var tinyTale = new TinyTale(document.body);
+            var tinyTale = new TT.TinyTale(document.body);
             tinyTale.run();
         };
     </script>

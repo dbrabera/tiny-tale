@@ -1,18 +1,20 @@
-function TinyTale(node) {
-    this.display = new Display(80, 60);
+var TT = window.TT || {};
+
+TT.TinyTale = function(node) {
+    this.display = new TT.Display(80, 60);
     node.appendChild(this.display.node());
 
-    this.input = new InputManager(this.display);
+    this.input = new TT.InputManager(this.display);
 
-    this.screens = new ScreenManager();
-    this.screens.push(new MainMenuScreen(this.screens));
-}
+    this.screens = new TT.ScreenManager();
+    this.screens.push(new TT.MainMenuScreen(this.screens));
+};
 
-TinyTale.prototype.run = function() {
+TT.TinyTale.prototype.run = function() {
     window.requestAnimationFrame(this.step.bind(this));
 };
 
-TinyTale.prototype.step = function() {
+TT.TinyTale.prototype.step = function() {
     this.display.clear();
     this.screens.step(this.display, this.input.mouse());
     window.requestAnimationFrame(this.step.bind(this));

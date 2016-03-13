@@ -1,4 +1,6 @@
-function Player(game) {
+var TT = window.TT || {};
+
+TT.Player = function(game) {
     this.char = '@';
     this.name = 'You';
     this.description = 'yourself';
@@ -27,23 +29,23 @@ function Player(game) {
 
     // add initial items
     this.slots = [
-        ITEM_TYPES[3],
-        ITEM_TYPES[4],
+        TT.Content.ITEM_TYPES[3],
+        TT.Content.ITEM_TYPES[4],
         null,
         null
     ];
 
-    this.attack.max += ITEM_TYPES[3].attack;
-    this.attack.current += ITEM_TYPES[3].attack;
+    this.attack.max += TT.Content.ITEM_TYPES[3].attack;
+    this.attack.current += TT.Content.ITEM_TYPES[3].attack;
 
-    this.defense.max += ITEM_TYPES[4].defense;
-    this.defense.current += ITEM_TYPES[4].defense;
+    this.defense.max += TT.Content.ITEM_TYPES[4].defense;
+    this.defense.current += TT.Content.ITEM_TYPES[4].defense;
 
     this.potions = 1;
     this.gold = 0;
-}
+};
 
-Player.prototype.go = function(x, y) {
+TT.Player.prototype.go = function(x, y) {
     this.action = function() {
         var path = this.game.map.findPath(this, {x: x, y: y});
         // check if there is no path to the position
@@ -84,12 +86,12 @@ Player.prototype.go = function(x, y) {
     };
 };
 
-Player.prototype.turn = function() {
+TT.Player.prototype.turn = function() {
     if (this.action == null) return false;
     return this.action();
 };
 
-Player.prototype.defend = function(attacker, verb, attack) {
+TT.Player.prototype.defend = function(attacker, verb, attack) {
     var damage = attack - this.defense.current;
     if (damage <= 0) {
         this.game.log.info('The ' + attacker + ' missed you.');
@@ -97,7 +99,7 @@ Player.prototype.defend = function(attacker, verb, attack) {
     }
 
     this.health.current -= damage;
-    this.game.map.tiles[this.x][this.y].surface = SURFACE_TYPES[0]; // pile of blood
+    this.game.map.tiles[this.x][this.y].surface = TT.Content.SURFACE_TYPES[0]; // pile of blood
 
     if(this.health.current > 0) {
         this.game.log.danger('The ' + attacker + ' ' + verb + ' you.');
@@ -108,7 +110,7 @@ Player.prototype.defend = function(attacker, verb, attack) {
     this.game.log.danger('The ' + attacker + ' killed you.');
 };
 
-Player.prototype.pick = function(item, x, y) {
+TT.Player.prototype.pick = function(item, x, y) {
     // check if its a potion
     if (item.slot === 4) {
         if (this.potions === 9) {
@@ -153,7 +155,7 @@ Player.prototype.pick = function(item, x, y) {
     return true;
 };
 
-Player.prototype.drop = function(slot) {
+TT.Player.prototype.drop = function(slot) {
     this.action = function() {
         if (!this.slots[slot]) {
             this.action = null;
@@ -182,7 +184,7 @@ Player.prototype.drop = function(slot) {
     };
 };
 
-Player.prototype.heal = function() {
+TT.Player.prototype.heal = function() {
     this.action = function() {
         if (this.potions === 0) {
             this.action = null;
@@ -206,10 +208,10 @@ Player.prototype.heal = function() {
     };
 };
 
-Player.prototype.weapon = function() {
+TT.Player.prototype.weapon = function() {
     return this.slots[0];
 };
 
-Player.prototype.amulet = function() {
+TT.Player.prototype.amulet = function() {
     return this.slots[2];
 };

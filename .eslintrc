@@ -12,28 +12,8 @@
         "browser": true
     },
     "globals": {
-        "Game": true,
-        "GameScreen": true,
-        "InputManager": true,
-        "MainMenuScreen": true,
-        "Map": true,
-        "Player": true,
         "ROT": true,
-        "ScreenManager": true,
-        "TILE_TYPES": true,
-        "ITEM_TYPES": true,
-        "Inventory": true,
-        "TinyTale": true,
-        "Viewport": true,
-        "Log": true,
-        "Display": true,
-        "Tile": true,
-        "darken": true,
-        "randchoice": true,
-        "Monster": true,
-        "MONSTER_TYPE": true,
-        "SURFACE_TYPES": true,
-        "MAP_TYPES": true
+        "TT": true
     },
     "extends": "eslint:recommended"
 }

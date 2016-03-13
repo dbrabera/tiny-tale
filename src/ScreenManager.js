@@ -1,15 +1,17 @@
-function ScreenManager() {
-    this.screens = [];
-}
+var TT = window.TT || {};
 
-ScreenManager.prototype.push = function(screen) {
+TT.ScreenManager = function() {
+    this.screens = [];
+};
+
+TT.ScreenManager.prototype.push = function(screen) {
     this.screens.push(screen);
 };
 
-ScreenManager.prototype.pop = function() {
+TT.ScreenManager.prototype.pop = function() {
     this.screens.pop();
 };
 
-ScreenManager.prototype.step = function(display, mouse) {
+TT.ScreenManager.prototype.step = function(display, mouse) {
     this.screens[this.screens.length - 1].step(display, mouse);
 };

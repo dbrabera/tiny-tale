@@ -1,14 +1,16 @@
-function GameScreen(screens) {
+var TT = window.TT || {};
+
+TT.GameScreen = function(screens) {
     this.screens = screens;
-    this.game = new Game();
+    this.game = new TT.Game();
 
     this.game.log.info('Find the Amulet of Yendor and escape with it alive.', true);
     this.game.log.info('Welcome, adventurer!', true);
 
     this._isOver = false;
-}
+};
 
-GameScreen.prototype.step = function(display, mouse) {
+TT.GameScreen.prototype.step = function(display, mouse) {
     if (this._isOver && mouse.clicked) {
         this.screens.pop();
     }
@@ -46,14 +48,18 @@ GameScreen.prototype.step = function(display, mouse) {
         this.game.up(); // previous level
     }
 
-    viewport(display, mouse, 0, 0, this.game);
-    description(display, mouse, 0, 51, this.game);
-    log(display, 0, 53, this.game.log);
+    this._viewport(display, mouse, 0, 0, this.game);
+    this._description(display, mouse, 0, 51, this.game);
+    this._log(display, 0, 53, this.game.log);
 
-    hud(display, mouse, 60, 0, this.game);
+    this._hud(display, mouse, 60, 0, this.game);
 };
 
-function viewport(display, mouse, x, y, game) {
+TT.GameScreen.prototype._viewport = function(display, mouse, x, y, game) {
+    function grid(x, y, color) {
+        return (x + y) % 2 === 0 ? TT.Color.darken(color, 0.1) : color;
+    }
+
     // draw tiles && items
     for (var i = 0; i < game.map.width; i++) {
         for (var j = 0; j < game.map.height; j++) {
@@ -103,9 +109,9 @@ function viewport(display, mouse, x, y, game) {
     for (i = 1; i < path.length - 1; i++) {
         display.rect(path[i].x, path[i].y, 1, 1, '#000000', grid(path[i].x, path[i].y, '#9badb7'));
     }
-}
+};
 
-function description(display, mouse, x, y, game) {
+TT.GameScreen.prototype._description = function(display, mouse, x, y, game) {
     if (!mouse.game) return;
 
     var tile = game.map.tile(mouse.game.x, mouse.game.y);
@@ -127,7 +133,7 @@ function description(display, mouse, x, y, game) {
     }
 
     if (tile.activable) {
-        display.write(x, y, capitalize(tile.verb) + ' ' + tile.description + '.');
+        display.write(x, y, this._capitalize(tile.verb) + ' ' + tile.description + '.');
         return;
     }
 
@@ -137,18 +143,18 @@ function description(display, mouse, x, y, game) {
     }
 
     display.write(x, y, (tile.visible ? 'You see ' : 'You remember seeing ') + tile.description + '.');
-}
+};
 
-function hud(display, mouse, x, y, game) {
+TT.GameScreen.prototype._hud = function(display, mouse, x, y, game) {
     display.write(x + 1, y, game.player.char + ': You', '#ffffff');
-    bar(display, x, y + 1, 'Health', game.player.health.current, game.player.health.max , '#ffffff', '#ac3232');
-    stats(display, x, y + 3, game.player);
-    score(display, x, y + 5, game);
-    inventory(display, mouse, x, y + 9, game.player);
-    level(display, x, y + 25, game);
-}
+    this._bar(display, x, y + 1, 'Health', game.player.health.current, game.player.health.max , '#ffffff', '#ac3232');
+    this._stats(display, x, y + 3, game.player);
+    this._score(display, x, y + 5, game);
+    this._inventory(display, mouse, x, y + 9, game.player);
+    this._level(display, x, y + 25, game);
+};
 
-function score(display, x, y, game) {
+TT.GameScreen.prototype._score = function(display, x, y, game) {
     function pad(n) {
         return n >= 10 ? '' + n : '0' + n;
     }
@@ -159,14 +165,14 @@ function score(display, x, y, game) {
 
     display.write(x + 1, y + 1, 'Time: ' + pad(hours) + ':' + pad(minutes));
     display.write(x + 1, y + 2, 'Gold: ' + game.player.gold);
-}
+};
 
-function level(display, x, y, game) {
+TT.GameScreen.prototype._level = function(display, x, y, game) {
     display.write(x + 1, y, 'Location', '#ffffff');
     display.write(x + 1, y + 1, game._level + ' - ' + game.map.name);
-}
+};
 
-function stats(display, x, y, player) {
+TT.GameScreen.prototype._stats = function(display, x, y, player) {
     var label = 'Attack: ' + player.attack.base;
     display.write(x + 1, y, label);
     if (player.attack.current !== player.attack.base) {
@@ -178,9 +184,9 @@ function stats(display, x, y, player) {
     if (player.defense.current !== player.defense.base) {
         display.write(x + 1 + label.length, y + 1, '+' + (player.defense.current - player.defense.base), '#6abe30');
     }
-}
+};
 
-function inventory(display, mouse, x, y, player) {
+TT.GameScreen.prototype._inventory = function(display, mouse, x, y, player) {
     var mouseover = mouse.x >= x && mouse.x < x + 20 && mouse.y >= y && mouse.y < y + 14;
 
     var names = ['Weapon', 'Armor', 'Amulet', 'Ring'];
@@ -198,12 +204,12 @@ function inventory(display, mouse, x, y, player) {
             if (mouse.clicked) player.drop(i);
 
             display.rect(x, y + (i * 3) + 1, 20, 1, null, '#ffffff');
-            display.write(x + 1, y + (i * 3) + 1, item.char + ' ' + capitalize(item.name), '#000000', '#ffffff');
+            display.write(x + 1, y + (i * 3) + 1, item.char + ' ' + this._capitalize(item.name), '#000000', '#ffffff');
             continue;
         }
 
         display.write(x + 1, y + (i * 3) + 1, item.char, item.color);
-        display.write(x + 3, y + (i * 3) + 1, capitalize(item.name));
+        display.write(x + 3, y + (i * 3) + 1, this._capitalize(item.name));
     }
 
     display.write(x + 1, y + 12, 'Potions', '#ffffff');
@@ -220,22 +226,22 @@ function inventory(display, mouse, x, y, player) {
 
         display.rect(x, y + 13, 20, 1, null, '#ffffff');
 
-        display.write(x + 1, y + 13, ITEM_TYPES[2].char, '#000000', '#ffffff');
+        display.write(x + 1, y + 13, TT.Content.ITEM_TYPES[2].char, '#000000', '#ffffff');
         display.write(x + 3, y + 13, label, '#000000', '#ffffff');
     } else {
-        display.write(x + 1, y + 13, ITEM_TYPES[2].char, ITEM_TYPES[2].color);
+        display.write(x + 1, y + 13, TT.Content.ITEM_TYPES[2].char, TT.Content.ITEM_TYPES[2].color);
         display.write(x + 3, y + 13, label);
     }
-}
+};
 
-function bar(display, x, y, label, value, capacity, fg, bg) {
+TT.GameScreen.prototype._bar = function(display, x, y, label, value, capacity, fg, bg) {
     var filledUntil = Math.floor(20 * value / capacity);
     display.write(x + 1, y, label + ' ' + value + '/' + capacity, fg, bg);
     display.rect(x, y, filledUntil, 1, fg, bg);
-    display.rect(x + filledUntil, y, capacity, 1, fg, darken(bg, 0.5));
-}
+    display.rect(x + filledUntil, y, capacity, 1, fg, TT.Color.darken(bg, 0.5));
+};
 
-function log(display, x, y, log) {
+TT.GameScreen.prototype._log = function(display, x, y, log) {
     for (var i = 0; i < log.capacity; i++) {
         var entry = log.entry(i);
         if (!entry) return;
@@ -250,12 +256,8 @@ function log(display, x, y, log) {
         var message = entry.message + (entry.count > 1 ? ' x' + entry.count : '');
         display.write(x, y + i, message, color, null, log.old(entry) ? 0.5 : null);
     }
-}
+};
 
-function grid(x, y, color) {
-    return (x + y) % 2 === 0 ? darken(color, 0.1) : color;
-}
-
-function capitalize(s) {
+TT.GameScreen.prototype._capitalize = function (s) {
     return s[0].toUpperCase() + s.slice(1);
-}
+};
